@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LTL-Galvanize System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background-color: #343a40;
+            color: white;
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 5px;
+        }
+        .sidebar .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: #0d6efd;
+        }
+        .main-content {
+            padding: 20px;
+        }
+        .truck-card {
+            transition: transform 0.3s;
+        }
+        .truck-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .status-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 col-lg-2 p-0 sidebar">
+                <div class="d-flex flex-column p-3">
+                    <div class="text-center mb-4">
+                        <h4>LTL-Galvanize</h4>
+                    </div>
+                    <hr>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a href="index.html" class="nav-link active">
+                                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="truck-entry.html" class="nav-link">
+                                <i class="fas fa-truck me-2"></i> Truck Entry
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="weighbridge.html" class="nav-link">
+                                <i class="fas fa-weight me-2"></i> Weighbridge
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="unloading.html" class="nav-link">
+                                <i class="fas fa-dolly me-2"></i> Unloading
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="reports.html" class="nav-link">
+                                <i class="fas fa-chart-bar me-2"></i> Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="admin.html" class="nav-link">
+                                <i class="fas fa-cog me-2"></i> Admin
+                            </a>
+                        </li>
+                    </ul>
+                    <hr>
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-2 fs-5"></i>
+                            <strong>Admin</strong>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-10 col-lg-10 main-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Dashboard</h2>
+                    <div class="d-flex">
+                        <div class="input-group me-3">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                        </div>
+                        <button class="btn btn-primary"><i class="fas fa-plus me-2"></i>New Truck</button>
+                    </div>
+                </div>
+                
+                <!-- Stats Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card bg-primary text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-0">Trucks Today</h6>
+                                        <h2 class="mb-0">24</h2>
+                                    </div>
+                                    <i class="fas fa-truck fa-3x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-success text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-0">Completed</h6>
+                                        <h2 class="mb-0">18</h2>
+                                    </div>
+                                    <i class="fas fa-check-circle fa-3x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-warning text-dark">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-0">In Progress</h6>
+                                        <h2 class="mb-0">6</h2>
+                                    </div>
+                                    <i class="fas fa-hourglass-half fa-3x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-info text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-0">Total Weight</h6>
+                                        <h2 class="mb-0">12.5t</h2>
+                                    </div>
+                                    <i class="fas fa-weight-hanging fa-3x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Active Trucks Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Active Trucks</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Vehicle No.</th>
+                                        <th>Customer</th>
+                                        <th>Driver</th>
+                                        <th>Time In</th>
+                                        <th>Status</th>
+                                        <th>Current Stage</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>KA-01-AB-1234</td>
+                                        <td>Electrical Solutions Ltd</td>
+                                        <td>Raja Kumar</td>
+                                        <td>09:15 AM</td>
+                                        <td><span class="badge bg-warning">In Progress</span></td>
+                                        <td>Unloading - Group 02</td>
+                                        <td>
+                                            <a href="unloading.html" class="btn btn-sm btn-primary"><i class="fas fa-play me-1"></i> Resume</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>MH-05-XY-7890</td>
+                                        <td>PowerGrid Components</td>
+                                        <td>Suresh Patel</td>
+                                        <td>10:30 AM</td>
+                                        <td><span class="badge bg-info">Weighbridge</span></td>
+                                        <td>Initial Weigh-in</td>
+                                        <td>
+                                            <a href="weighbridge.html" class="btn btn-sm btn-primary"><i class="fas fa-play me-1"></i> Resume</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>TN-07-CD-4567</td>
+                                        <td>Southern Electric Co.</td>
+                                        <td>Mani Ratnam</td>
+                                        <td>11:45 AM</td>
+                                        <td><span class="badge bg-warning">In Progress</span></td>
+                                        <td>Pre-Preparation</td>
+                                        <td>
+                                            <a href="unloading.html" class="btn btn-sm btn-primary"><i class="fas fa-play me-1"></i> Resume</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recently Completed Section -->
+                <div class="card">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Recently Completed</h5>
+                        <a href="reports.html" class="btn btn-sm btn-outline-primary">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Vehicle No.</th>
+                                        <th>Customer</th>
+                                        <th>Total Weight</th>
+                                        <th>Item Groups</th>
+                                        <th>Completion Time</th>
+                                        <th>Report</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>KL-10-RT-8765</td>
+                                        <td>Kerala Electrical Ltd</td>
+                                        <td>2.4 tons</td>
+                                        <td>3</td>
+                                        <td>Today, 11:20 AM</td>
+                                        <td><a href="#" class="btn btn-sm btn-outline-secondary"><i class="fas fa-download me-1"></i> PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>AP-16-UJ-2109</td>
+                                        <td>Power Systems Inc</td>
+                                        <td>3.8 tons</td>
+                                        <td>5</td>
+                                        <td>Today, 10:15 AM</td>
+                                        <td><a href="#" class="btn btn-sm btn-outline-secondary"><i class="fas fa-download me-1"></i> PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>DL-09-HJ-5432</td>
+                                        <td>North India Hardware</td>
+                                        <td>1.7 tons</td>
+                                        <td>2</td>
+                                        <td>Today, 09:30 AM</td>
+                                        <td><a href="#" class="btn btn-sm btn-outline-secondary"><i class="fas fa-download me-1"></i> PDF</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
