@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LTL-Galvanize - Unloading & Processing</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background-color: #343a40;
+            color: white;
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 5px;
+        }
+        .sidebar .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: #0d6efd;
+        }
+        .main-content {
+            padding: 20px;
+        }
+        .form-section {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .form-section h5 {
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .section-badge {
+            font-size: 0.85rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+        .nav-tabs .nav-link {
+            border-radius: 0;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            padding: 10px 20px;
+        }
+        .nav-tabs .nav-link.active {
+            font-weight: bold;
+            border-top: 3px solid #0d6efd;
+        }
+        .info-card {
+            background-color: #f8f9fa;
+            border-left: 4px solid #0d6efd;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .weight-display {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 col-lg-2 p-0 sidebar">
+                <div class="d-flex flex-column p-3">
+                    <div class="text-center mb-4">
+                        <h4>LTL-Galvanize</h4>
+                    </div>
+                    <hr>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a href="index.html" class="nav-link">
+                                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="truck-entry.html" class="nav-link">
+                                <i class="fas fa-truck me-2"></i> Truck Entry
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="weighbridge.html" class="nav-link">
+                                <i class="fas fa-weight me-2"></i> Weighbridge
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="unloading.html" class="nav-link active">
+                                <i class="fas fa-dolly me-2"></i> Unloading
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="reports.html" class="nav-link">
+                                <i class="fas fa-chart-bar me-2"></i> Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="admin.html" class="nav-link">
+                                <i class="fas fa-cog me-2"></i> Admin
+                            </a>
+                        </li>
+                    </ul>
+                    <hr>
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-2 fs-5"></i>
+                            <strong>Admin</strong>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-10 col-lg-10 main-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Unloading & Processing</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="weighbridge.html">Weighbridge</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Unloading</li>
+                        </ol>
+                    </nav>
+                </div>
+                
+                <div class="info-card">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p class="mb-1"><strong>Vehicle No:</strong></p>
+                            <h5>KA-01-AB-1234</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <p class="mb-1"><strong>Customer:</strong></p>
+                            <h5>Electrical Solutions Ltd</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <p class="mb-1"><strong>Initial Weight:</strong></p>
+                            <h5>5,478 KG</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <p class="mb-1"><strong>Group:</strong></p>
+                            <h5>GROUP <span id="groupNumberHeader">01</span></h5>
+                        </div>
+                    </div>
+                </div>
+                
+                <ul class="nav nav-tabs mb-4" id="processingTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="section-a-tab" data-bs-toggle="tab" data-bs-target="#section-a" type="button" role="tab">
+                            <i class="fas fa-clipboard-list me-1"></i> Section A
+                            <span class="badge bg-primary section-badge">Item Entry</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="section-b-tab" data-bs-toggle="tab" data-bs-target="#section-b" type="button" role="tab">
+                            <i class="fas fa-tools me-1"></i> Section B
+                            <span class="badge bg-success section-badge">Pre-Preparation</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="section-c-tab" data-bs-toggle="tab" data-bs-target="#section-c" type="button" role="tab">
+                            <i class="fas fa-dollar-sign me-1"></i> Section C
+                            <span class="badge bg-warning section-badge">Additional Charges</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="section-d-tab" data-bs-toggle="tab" data-bs-target="#section-d" type="button" role="tab">
+                            <i class="fas fa-exclamation-triangle me-1"></i> Section D
+                            <span class="badge bg-danger section-badge">Customer Concerns</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="section-e-tab" data-bs-toggle="tab" data-bs-target="#section-e" type="button" role="tab">
+                            <i class="fas fa-weight-hanging me-1"></i> Section E
+                            <span class="badge bg-secondary section-badge">Final Weigh</span>
+                        </button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="processingTabsContent">
+                    <!-- Section A - Item Entry Form -->
+                    <div class="tab-pane fade show active" id="section-a" role="tabpanel">
+                        <div class="form-section">
+                            <h5><i class="fas fa-clipboard-list me-2 text-primary"></i> Section A: Unloading Yard Item Entry</h5>
+                            
+                            <form id="sectionAForm">
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <p class="mb-1"><strong>Customer Name:</strong> xxxxxxxxxxxxxxxxxxxxxxx</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="mb-1"><strong>Date:</strong> xxxx/xx/xx</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="mb-1"><strong>Vehicle No.:</strong> xx-xxxxx</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <p class="mb-1"><strong>GROUP <span id="groupNumber">01</span></strong></p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="bathType" class="form-label"><strong>Bath Type:</strong></label>
+                                        <select class="form-select" id="bathType">
+                                            <option value="bath1">Bath I</option>
+                                            <option value="bath2">Bath II</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="serviceType" class="form-label"><strong>Service Type:</strong></label>
+                                        <select class="form-select" id="serviceType">
+                                            <option value="normal" selected>Normal</option>
+                                            <option value="urgent">Urgent</option>
+                                            <option value="topUrgent">Top Urgent</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="table-responsive mb-4">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th style="width: 80px">No.</th>
+                                                <th>Item Name</th>
+                                                <th>Dimensions (mm)</th>
+                                                <th>Quantity</th>
+                                                <th style="width: 100px">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <select class="form-select form-select-sm">
+                                                        <option value="" selected> </option>
+                                                        <option value="angle" >Angle</option>
+                                                        <option value="channel">Channel</option>
+                                                        <option value="plate">Plate</option>
+                                                        <option value="other">Other</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control form-control-sm" value="">
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="form-control form-control-sm" value="">
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>
+                                                    <select class="form-select form-select-sm">
+                                                        <option value=""></option>
+                                                        <option value="angle">Angle</option>
+
+                                                        <option value="channel" selected>Channel</option>
+                                                        <option value="" selected> </option>
+                                                        <option value="plate">Plate</option>
+                                                        <option value="other">Other</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control form-control-sm" value="">
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="form-control form-control-sm" value="">
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>
+                                                    <select class="form-select form-select-sm">
+                                                        <option value=""></option>
+                                                        <option value="angle">Angle</option>
+                                                        <option value="channel">Channel</option>
+                                                        <option value="" selected> </option>
+                                                        <option value="other">Other</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control form-control-sm">
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="form-control form-control-sm">
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('section-c-tab').click();">
+                                        <i class="fas fa-arrow-left me-1"></i> Previous
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="submitSectionAForm()">
+                                        Submit
+                                    </button>
+                                    
+                                    <button type="button" class="btn btn-primary" onclick="document.getElementById('section-b-tab').click();">
+                                        Next <i class="fas fa-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Section E - Final Weighing -->
+                    <div class="tab-pane fade" id="section-e" role="tabpanel">
+                        <div class="form-section">
+                            <h5><i class="fas fa-weight-hanging me-2 text-secondary"></i> Section E: Weight Bridge - Final Weigh</h5>
+                            
+                            <form id="sectionEForm">
+                                <div class="alert alert-info mb-4">
+                                    <i class="fas fa-info-circle me-2"></i> After unloading this group, weigh the truck again to calculate the unloaded weight.
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-8 mx-auto">
+                                        <div class="card mb-4">
+                                            <div class="card-header bg-light">
+                                                <h5 class="mb-0">WEIGHT BRIGDE</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <p class="mb-1"><strong>Customer Name:</strong></p>
+                                                        <h5>xxxxxxxxxxxxxxxxxxxxxxx</h5>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <p class="mb-1"><strong>Date:</strong></p>
+                                                        <h5>xxxx/xxx/xx</h5>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <p class="mb-1"><strong>Vehicle No.:</strong></p>
+                                                        <h5>xx-xxxxx</h5>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row mb-4">
+                                                    <div class="col-md-12">
+                                                        <table class="table table-bordered">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td width="50%"><strong>GROUP <span id="groupNumberE">01</span></strong></td>
+                                                                    <td width="50%"><strong>Weight</strong></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="weight-display mb-3" id="finalWeightDisplay">4,235 KG</div>
+                                                
+                                                <div class="d-grid mb-3">
+                                                    <button type="button" class="btn btn-primary btn-lg" id="captureFinalWeightBtn">
+                                                        <i class="fas fa-camera me-2"></i> Capture Weight
+                                                    </button>
+                                                </div>
+                                                
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label for="finalWeight" class="form-label">Captured Weight (kg)</label>
+                                                        <input type="text" class="form-control" id="finalWeight" value="4,235" readonly>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="unloadedWeight" class="form-label">Unloaded Weight (kg)</label>
+                                                        <input type="text" class="form-control bg-light fw-bold" id="unloadedWeight" value="1,243" readonly>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <button type="button" class="btn btn-outline-primary btn-lg" id="nextGroupBtn" onclick="nextGroup();">
+                                                                Next Group
+                                                            </button>
+                                                            <button type="button" class="btn btn-success btn-lg">
+                                                                Finish
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('section-d-tab').click();">
+                                        <i class="fas fa-arrow-left me-1"></i> Previous
+                                    </button>
+                                    <a href="index.html" class="btn btn-primary">
+                                        Finish Process <i class="fas fa-check ms-1"></i>
+                                    </a>
+                                </div>
+                                <div class="d-flex justify-content-center mb-4">
+                                    <button type="button" class="btn btn-outline-primary">
+                                        <i class="fas fa-plus me-1"></i> Add Item Row
+                                    </button>
+                                </div>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-4">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="hollow">
+                                            <label class="form-check-label" for="hollow">Hollow</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="3mm" checked>
+                                            <label class="form-check-label" for="3mm">3mm</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="specialCharges">
+                                            <label class="form-check-label" for="specialCharges">Special Charges</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="3dCharges">
+                                            <label class="form-check-label" for="3dCharges">3D Charges</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="sticky">
+                                            <label class="form-check-label" for="sticky">Sticky</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="doubleDipping">
+                                            <label class="form-check-label" for="doubleDipping">Double Dipping</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="multipleDipping">
+                                            <label class="form-check-label" for="multipleDipping">Multiple Dipping</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="others">
+                                            <label class="form-check-label" for="others">Others</label>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="unitPrice" class="form-label"><strong>Unit Price:</strong></label>
+                                            <input type="text" class="form-control" id="unitPrice">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-outline-secondary" id="sectionAPrevBtn">
+                                        <i class="fas fa-arrow-left me-1"></i> Back
+                                    </button>
+                                    <button type="button" class="btn btn-primary" id="sectionANextBtn" onclick="document.getElementById('section-b-tab').click();">
+                                        Next <i class="fas fa-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Section B - Pre-Preparation Charges -->
+                    <div class="tab-pane fade" id="section-b" role="tabpanel">
+                        <div class="form-section">
+                            <h5><i class="fas fa-tools me-2 text-success"></i> Section B: Pre-Preparation Charges</h5>
+                            
+                            <form id="sectionBForm">
+                                <div class="row">
+                                    <div class="col-md-8 mx-auto">
+                                        <table class="table table-bordered">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th style="width: 80px" class="text-center">✓</th>
+                                                    <th>Task</th>
+                                                    <th style="width: 200px">Charge (Rs)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="binding" checked>
+                                                    </td>
+                                                    <td>Binding</td>
+                                                    <td>
+                                                        <input type="text" class="form-control" value="45">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="drillingHoles" checked>
+                                                    </td>
+                                                    <td>Drilling Holes</td>
+                                                    <td>
+                                                        <input type="text" class="form-control" value="10">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="addingHooks">
+                                                    </td>
+                                                    <td>Adding Hooks</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="addingLugs">
+                                                    </td>
+                                                    <td>Adding Lugs</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="cleaningOil">
+                                                    </td>
+                                                    <td>Cleaning Oil/Paint/Grease</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="excessiveRust">
+                                                    </td>
+                                                    <td>Excessive Rust</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="grindingCharges">
+                                                    </td>
+                                                    <td>Grinding Charges</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td class="text-end"><strong>Subtotal:</strong></td>
+                                                    <td>
+                                                        <input type="text" class="form-control bg-light fw-bold" value="55" readonly>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('section-a-tab').click();">
+                                        <i class="fas fa-arrow-left me-1"></i> Previous
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="document.getElementById('section-c-tab').click();">
+                                        Next <i class="fas fa-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Section C - Additional Charges -->
+                    <div class="tab-pane fade" id="section-c" role="tabpanel">
+                        <div class="form-section">
+                            <h5><i class="fas fa-dollar-sign me-2 text-warning"></i> Section C: Additional Charges</h5>
+                            
+                            <form id="sectionCForm">
+                                <div class="row">
+                                    <div class="col-md-10 mx-auto">
+                                        <table class="table table-bordered">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th style="width: 60px" class="text-center">✓</th>
+                                                    <th>Description</th>
+                                                    <th style="width: 200px">Charge</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="threadCleaning" checked>
+                                                    </td>
+                                                    <td>Thread Cleaning Charges</td>
+                                                    <td>
+                                                        <input type="text" class="form-control" value="45">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="znRemoval" checked>
+                                                    </td>
+                                                    <td>Zn Removal</td>
+                                                    <td>
+                                                        <input type="text" class="form-control" value="30%xWeight">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="handlingCharges">
+                                                    </td>
+                                                    <td>Handling Charges</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="burningCharges">
+                                                    </td>
+                                                    <td>Burning Charges</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="qualityReport">
+                                                    </td>
+                                                    <td>Quality Report</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="sandBlasting">
+                                                    </td>
+                                                    <td>Sand Blasting Charges</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="otherCharges">
+                                                    </td>
+                                                    <td>Others</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        
+                                        <div class="text-end me-4 mt-3">
+                                            <span class="fs-5">
+                                                <strong>OP</strong>
+                                                <span class="border border-dark rounded-circle d-inline-block text-center" style="width: 40px; height: 40px;">3</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('section-b-tab').click();">
+                                        <i class="fas fa-arrow-left me-1"></i> Previous
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="document.getElementById('section-d-tab').click();">
+                                        Next <i class="fas fa-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Section D - Customer Concerns -->
+                    <div class="tab-pane fade" id="section-d" role="tabpanel">
+                        <div class="form-section">
+                            <h5><i class="fas fa-exclamation-triangle me-2 text-danger"></i> Section D: Customer Concerns</h5>
+                            
+                            <form id="sectionDForm">
+                                <div class="alert alert-warning mb-4">
+                                    <i class="fas fa-info-circle me-2"></i>  Check all issues observed with the customer's items that may affect processing or quality.
+                                </div>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width: 50px;" class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="weldingSlug">
+                                                    </td>
+                                                    <td style="width: 200px;">Welding Slag/Holes</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                    <td style="width: 50px;" class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="uncompletedWelding">
+                                                    </td>
+                                                    <td style="width: 200px;">Uncompleted Welding</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                    <td style="width: 50px;" class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="weldingSpatters">
+                                                    </td>
+                                                    <td style="width: 200px;">Welding Spatters</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="weldingBurrs">
+                                                    </td>
+                                                    <td>Welding Burrs</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="cuttingBurrs">
+                                                    </td>
+                                                    <td>Cutting Burrs</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="thicknessIssue">
+                                                    </td>
+                                                    <td>Thickness Issue</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input class="form-check-input" type="checkbox" id="materialIssue">
+                                                    </td>
+                                                    <td>Material Issue</td>
+                                                    <td>
+                                                        <input type="text" class="form-control">
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-5">
+                                        <div class="d-flex align-items-center mt-2">
+                                            <h5 class="me-4 mb-0">Tags</h5>
+                                            <div>
+                                                <label for="issueTags" class="form-label mb-0"><strong>Nos. Issue Tags:</strong></label>
+                                                <input type="text" class="form-control d-inline-block ms-2" id="issueTags" style="width: 150px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 text-end">
+                                        <span class="fs-5">
+                                            <strong>OK</strong>
+                                            <span class="border border-dark rounded-circle d-inline-block text-center" style="width: 40px; height: 40px;">3</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('section-c-tab').click();">
+                                        <i class="fas fa-arrow-left me-1"></i> Previous
+                                    </button>
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-save me-1"></i> Submit
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="document.getElementById('section-e-tab').click();">
+                                        Next <i class="fas fa-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div> quality.
+                                </div>
+                                
+-3">
+                                            <label for="issueTags" class="form-label">Issue Tags (Optional)</label>
+                                            <input type="text" class="form-control" id="issueTags" placeholder="Enter issue tag numbers">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="concernNotes" class="form-label">Additional Notes</label>
+                                            <textarea class="form-control" id="concernNotes" rows="3" placeholder="Enter any additional notes about quality concerns..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('section-c-tab').click();">
+                                        <i class="fas fa-arrow-left me-1"></i> Previous
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="document.getElementById('section-e-tab').click();">
+                                        Next <i class="fas fa-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Section E - Final Weighing -->
+                    <div class="tab-pane fade" id="section-e" role="tabpanel">
+                        <div class="form-section">
+                            <h5><i class="fas fa-weight-hanging me-2 text-secondary"></i> Section E: Weight Bridge - Final Weigh</h5>
+                            
+                            <form id="sectionEForm">
+                                <div class="alert alert-info mb-4">
+                                    <i class="fas fa-info-circle me-2"></i> After unloading this group, weigh the truck again to calculate the unloaded weight.
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-7 mx-auto">
+                                        <div class="card mb-4">
+                                            <div class="card-body">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <p class="mb-1"><strong>Initial Weight:</strong></p>
+                                                        <h4>5,478 KG</h4>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p class="mb-1"><strong>Group:</strong></p>
+                                                        <h4>GROUP 01</h4>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="weight-display mb-3" id="finalWeightDisplay">4,235 KG</div>
+                                                
+                                                <div class="d-grid mb-3">
+                                                    <button type="button" class="btn btn-primary btn-lg" id="captureFinalWeightBtn">
+                                                        <i class="fas fa-camera me-2"></i> Capture Final Weight
+                                                    </button>
+                                                </div>
+                                                
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label for="finalWeight" class="form-label">Captured Weight (kg)</label>
+                                                        <input type="text" class="form-control" id="finalWeight" value="4,235" readonly>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="unloadedWeight" class="form-label">Unloaded Weight (kg)</label>
+                                                        <input type="text" class="form-control bg-light fw-bold" id="unloadedWeight" value="1,243" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <button type="button" class="btn btn-outline-primary btn-lg">
+                                                <i class="fas fa-plus-circle me-1"></i> Next Group
+                                            </button>
+                                            <button type="button" class="btn btn-success btn-lg">
+                                                <i class="fas fa-check-circle me-1"></i> Finish
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('section-d-tab').click();">
+                                        <i class="fas fa-arrow-left me-1"></i> Previous
+                                    </button>
+                                    <a href="index.html" class="btn btn-primary">
+                                        Finish Process <i class="fas fa-check ms-1"></i>
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simple simulation of weight fluctuation for final weighing
+        document.addEventListener('DOMContentLoaded', function() {
+            const finalWeightDisplay = document.getElementById('finalWeightDisplay');
+            const captureFinalWeightBtn = document.getElementById('captureFinalWeightBtn');
+            const finalWeight = document.getElementById('finalWeight');
+            
+            // Simulate slight weight fluctuations
+            let baseWeight = 4235;
+            
+            function updateWeight() {
+                // Random fluctuation between -3 and +3 kg
+                const fluctuation = Math.floor(Math.random() * 7) - 3;
+                const currentWeight = baseWeight + fluctuation;
+                
+                // Format with comma as thousands separator
+                const formattedWeight = currentWeight.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                finalWeightDisplay.textContent = formattedWeight + " KG";
+            }
+            
+            // Update weight every 800ms
+            const intervalId = setInterval(updateWeight, 800);
+            
+            // Capture weight button
+            captureFinalWeightBtn.addEventListener('click', function() {
+                clearInterval(intervalId); // Stop fluctuation
+                // Set the current displayed weight to the input field
+                finalWeight.value = finalWeightDisplay.textContent.replace(" KG", "");
+                // Change button state
+                captureFinalWeightBtn.disabled = true;
+                captureFinalWeightBtn.innerHTML = '<i class="fas fa-check me-2"></i> Weight Captured';
+                captureFinalWeightBtn.classList.remove('btn-primary');
+                captureFinalWeightBtn.classList.add('btn-success');
+            });
+        });
+        
+        // Function to handle "Next Group" button click
+        function nextGroup() {
+            // Get current group number and increment
+            let currentGroup = parseInt(document.getElementById('groupNumber').innerText);
+            let newGroup = currentGroup + 1;
+            let newGroupStr = newGroup.toString().padStart(2, '0'); // Format as 01, 02, etc.
+            
+            // Update all group number references
+            document.getElementById('groupNumber').innerText = newGroupStr;
+            document.getElementById('groupNumberE').innerText = newGroupStr;
+            document.getElementById('groupNumberHeader').innerText = newGroupStr;
+            
+            // Reset form fields in all sections
+            // Reset Section A
+            document.getElementById('sectionAForm').reset();
+            
+            // Reset Section B
+            document.getElementById('sectionBForm').reset();
+            
+            // Reset Section C
+            document.getElementById('sectionCForm').reset();
+            
+            // Reset Section D
+            document.getElementById('sectionDForm').reset();
+            
+            // Reset Section E
+            document.getElementById('finalWeight').value = '';
+            document.getElementById('unloadedWeight').value = '';
+            
+            // Reset weight capture button
+            const captureFinalWeightBtn = document.getElementById('captureFinalWeightBtn');
+            captureFinalWeightBtn.disabled = false;
+            captureFinalWeightBtn.innerHTML = '<i class="fas fa-camera me-2"></i> Capture Weight';
+            captureFinalWeightBtn.classList.remove('btn-success');
+            captureFinalWeightBtn.classList.add('btn-primary');
+            
+            // Navigate back to Section A
+            document.getElementById('section-a-tab').click();
+        }
+
+
+function submitSectionAForm() {
+    // Optional: perform form validation here if needed
+    const form = document.getElementById('sectionAForm');
+
+    // You can simulate a form submission here using AJAX or just log it
+    console.log("Form submitted:", new FormData(form));
+
+    // Go to Section E
+    document.getElementById('section-e-tab').click();
+}
+
+
+</script>
+</body>
+</html>
